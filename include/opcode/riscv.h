@@ -46,6 +46,22 @@ static inline unsigned int riscv_insn_length (insn_t insn)
   return 2;
 }
 
+/* for RVV 0.7.1 */
+/* List of vsetvli vlmul constants.  */
+static const char * const riscv_vlen[4] =
+{
+  "m1", "m2", "m4", "m8"
+};
+
+/* List of vsetvli vediv constants.  */
+static const char * const riscv_vediv[4] =
+{
+  "d1", "d2", "d4", "d8"
+};
+
+#define VECTOR_VERSION_100  100
+#define VECTOR_VERSION_071 71
+
 #define RVC_JUMP_BITS 11
 #define RVC_JUMP_REACH ((1ULL << RVC_JUMP_BITS) * RISCV_JUMP_ALIGN)
 
