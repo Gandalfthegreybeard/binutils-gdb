@@ -2355,10 +2355,10 @@
 
 /* RVV 0.7.1 XTheadVector instructions*/
 
-#define MATCH_VSETVL  0x80007057
-#define MASK_VSETVL   0xfe00707f
-#define MATCH_VSETVLI 0x00007057
-#define MASK_VSETVLI  0x8000707f
+#define MATCH_THVSETVL  0x80007057
+#define MASK_THVSETVL   0xfe00707f
+#define MATCH_THVSETVLI 0x00007057
+#define MASK_THVSETVLI  0x8000707f
 
 /* more match/masks */
 
@@ -2406,6 +2406,9 @@
 // Confict
 //#define MATCH_VFCLASSV 0x8c081057
 //#define MASK_VFCLASSV  0xfc0ff07f
+
+#define MATCH_THVIDV     0x5808a057
+#define MASK_THVIDV      0xfdfff07f
 
 #define MATCH_VNCLIPUVV 0xb8000057
 #define MASK_VNCLIPUVV  0xfc00707f

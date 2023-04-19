@@ -1818,8 +1818,8 @@ const struct riscv_opcode riscv_opcodes[] =
 {"vmv8r.v",    0, INSN_CLASS_V, "Vd,Vt", MATCH_VMV8RV, MASK_VMV8RV, match_opcode, 0},
 
 /* RVV 0.7.1 INSNd th.vec THEADd */
-{"th.vec.vsetvl",     0, INSN_CLASS_XTHEADV,  "d,s,t", MATCH_VSETVL, MASK_VSETVL, match_opcode, 0},
-{"th.vec.vsetvli",    0, INSN_CLASS_XTHEADV,  "d,s,Vc", MATCH_VSETVLI, MASK_VSETVLI, match_opcode, 0},
+{"th.vec.vsetvl",     0, INSN_CLASS_XTHEADV,  "d,s,t", MATCH_THVSETVL, MASK_THVSETVL, match_opcode, 0},
+{"th.vec.vsetvli",    0, INSN_CLASS_XTHEADV,  "d,s,Vc", MATCH_THVSETVLI, MASK_THVSETVLI, match_opcode, 0},
 
 {"th.vec.vlb.v",      0, INSN_CLASS_XTHEADV,  "Vd,0(s)Vm", MATCH_VLBV, MASK_VLBV, match_opcode, INSN_DREF },
 {"th.vec.vlh.v",      0, INSN_CLASS_XTHEADV,  "Vd,0(s)Vm", MATCH_VLHV, MASK_VLHV, match_opcode, INSN_DREF },
@@ -2548,7 +2548,7 @@ const struct riscv_opcode riscv_opcodes[] =
 {"th.vec.vmsif.m",    0, INSN_CLASS_XTHEADV, "Vd,VtVm", MATCH_VMSIFM, MASK_VMSIFM, match_opcode, 0},
 {"th.vec.vmsof.m",    0, INSN_CLASS_XTHEADV, "Vd,VtVm", MATCH_VMSOFM, MASK_VMSOFM, match_opcode, 0},
 {"th.vec.viota.m",    0, INSN_CLASS_XTHEADV, "Vd,VtVm", MATCH_VIOTAM, MASK_VIOTAM, match_opcode, 0},
-{"th.vec.vid.v",      0, INSN_CLASS_XTHEADV, "VdVm", MATCH_VIDV, MASK_VIDV, match_opcode, 0},
+{"th.vec.vid.v",      0, INSN_CLASS_XTHEADV, "VdVm", MATCH_THVIDV, MASK_THVIDV, match_opcode, 0},
 
 {"th.vec.vmv.x.s",    0, INSN_CLASS_XTHEADV, "d,Vt", MATCH_VMVXS, MASK_VMVXS, match_opcode, INSN_ALIAS},
 
