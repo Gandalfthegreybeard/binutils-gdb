@@ -2318,11 +2318,11 @@ my_getOpcodeExpression (expressionS *ep, bfd_reloc_code_real_type *reloc,
    expression.  */
 
 static void
-my_getVsetvliExpression (expressionS *ep, char *str)
+my_getVsetvliExpression (expressionS *ep, char *str, unsigned int vectorversion)
 {
-  unsigned int vsew_value = 0, vlmul_value = 0;
+  unsigned int vsew_value = 0, vlmul_value = 0, vlen_value = 0, vediv_value = 0;
   unsigned int vta_value = 0, vma_value = 0;
-  bfd_boolean vsew_found = FALSE, vlmul_found = FALSE;
+  bfd_boolean vsew_found = FALSE, vlmul_found = FALSE, vlen_found = FALSE, vediv_found = FALSE;
   bfd_boolean vta_found = FALSE, vma_found = FALSE;
 
   if (arg_lookup (&str, riscv_vsew, ARRAY_SIZE (riscv_vsew), &vsew_value))
@@ -2333,14 +2333,18 @@ my_getVsetvliExpression (expressionS *ep, char *str)
 	as_bad (_("multiple vsew constants"));
       vsew_found = TRUE;
     }
+  
+  if (vectorversion == VECTOR_VERSION_100)
+  {
   if (arg_lookup (&str, riscv_vlmul, ARRAY_SIZE (riscv_vlmul), &vlmul_value))
     {
       if (*str == ',')
-	++str;
-      if (vlmul_found)
-	as_bad (_("multiple vlmul constants"));
-      vlmul_found = TRUE;
+	  ++str;
+       if (vlmul_found)
+	  as_bad (_("multiple vlmul constants"));
+       vlmul_found = TRUE;
     }
+
   if (arg_lookup (&str, riscv_vta, ARRAY_SIZE (riscv_vta), &vta_value))
     {
       if (*str == ',')
@@ -2372,6 +2376,41 @@ my_getVsetvliExpression (expressionS *ep, char *str)
       my_getExpression (ep, str);
       str = expr_parse_end;
     }
+  } else if (vectorversion == VECTOR_VERSION_071) {
+    /* RVV 0.7.1 */
+
+      if (arg_lookup (&str, riscv_vlen, ARRAY_SIZE (riscv_vlen), &vlen_value))
+    {
+      if (*str == ',')
+	++str;
+      if (vlen_found)
+	as_bad (_("multiple vlen constants"));
+      vlen_found = TRUE;
+    }
+
+  if (arg_lookup (&str, riscv_vediv, ARRAY_SIZE (riscv_vediv), &vediv_value))
+    {
+      if (*str == ',')
+	++str;
+      if (vediv_found)
+	as_bad (_("multiple vediv constants"));
+      vediv_found = TRUE;
+    }
+
+  if (vsew_found || vlen_found || vediv_found)
+    {
+      ep->X_op = O_constant;
+      ep->X_add_number = (vediv_value << 5) | (vsew_value << 2) | (vlen_value);
+      expr_parse_end = str;
+      return;
+    }
+
+  my_getExpression (ep, str);
+  str = expr_parse_end;
+
+  } else {
+    as_bad (_("unknown vector version"));
+  }
 }
 
 /* Detect and handle implicitly zero load-store offsets.  For example,
@@ -2489,6 +2528,7 @@ riscv_ip (char *str, struct riscv_cl_insn *ip, expressionS *imm_expr,
   error.missing_ext = NULL;
   /* Indicate we are assembling instruction with CSR.  */
   bool insn_with_csr = false;
+  unsigned int vectorversion = VECTOR_VERSION_100;
 
   /* Parse the name of the instruction.  Terminate the string if whitespace
      is found so that str_hash_find only sees the name part of the string.  */
@@ -2501,6 +2541,9 @@ riscv_ip (char *str, struct riscv_cl_insn *ip, expressionS *imm_expr,
       }
 
   insn = (struct riscv_opcode *) str_hash_find (hash, str);
+
+  if(insn->insn_class == INSN_CLASS_XTHEADV)
+    vectorversion = VECTOR_VERSION_071;
 
   asargStart = asarg;
   for ( ; insn && insn->name && strcmp (insn->name, str) == 0; insn++)
@@ -2942,7 +2985,7 @@ riscv_ip (char *str, struct riscv_cl_insn *ip, expressionS *imm_expr,
 		  break;
 
 		case 'b': /* vtypei for vsetivli */
-		  my_getVsetvliExpression (imm_expr, asarg);
+		  my_getVsetvliExpression (imm_expr, asarg,vectorversion);
 		  check_absolute_expr (ip, imm_expr, FALSE);
 		  if (!VALID_RVV_VB_IMM (imm_expr->X_add_number))
 		    as_bad (_("bad value for vsetivli immediate field, "
@@ -2954,7 +2997,7 @@ riscv_ip (char *str, struct riscv_cl_insn *ip, expressionS *imm_expr,
 		  continue;
 
 		case 'c': /* vtypei for vsetvli */
-		  my_getVsetvliExpression (imm_expr, asarg);
+		  my_getVsetvliExpression (imm_expr, asarg,vectorversion);
 		  check_absolute_expr (ip, imm_expr, FALSE);
 		  if (!VALID_RVV_VC_IMM (imm_expr->X_add_number))
 		    as_bad (_("bad value for vsetvli immediate field, "
