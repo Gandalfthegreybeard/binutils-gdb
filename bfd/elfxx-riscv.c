@@ -1108,6 +1108,9 @@ static struct riscv_implicit_subset riscv_implicit_subsets[] =
   {"sscofpmf", "zicsr",		check_implicit_always},
   {"ssstateen", "zicsr",	check_implicit_always},
   {"sstc", "zicsr",		check_implicit_always},
+  {"theadv", "d",		check_implicit_always},
+  {"theadv", "zve64d",	check_implicit_always},
+  {"theadv", "zvl128b",	check_implicit_always},
   {NULL, NULL, NULL}
 };
 
@@ -2387,7 +2390,11 @@ riscv_multi_subset_supports (riscv_parse_subset_t *rps,
     case INSN_CLASS_XTHEADV:
       return riscv_subset_supports (rps, "xtheadv");
     case INSN_CLASS_XTHEADZVEF:
-      return riscv_subset_supports (rps, "xtheadzvef");
+      return (riscv_subset_supports (rps, "theadv")
+	      || riscv_subset_supports (rps, "zve64d")
+	      || riscv_subset_supports (rps, "zve64f")
+	      || riscv_subset_supports (rps, "zve32f"));
+
     default:
       rps->error_handler
         (_("internal: unreachable INSN_CLASS_*"));
