@@ -2360,6 +2360,9 @@
 #define MATCH_THVSETVLI 0x00007057
 #define MASK_THVSETVLI  0x8000707f
 
+#define MATCH_THVFCVTFXV   0x88019057
+#define MASK_THVFCVTFXV    0xfc0ff07f
+
 /* more match/masks */
 
 #define MATCH_VMPOPCM  0x50002057

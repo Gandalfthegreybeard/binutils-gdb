@@ -2494,7 +2494,7 @@ const struct riscv_opcode riscv_opcodes[] =
 {"th.vec.vfcvt.xu.f.v",0, INSN_CLASS_XTHEADZVEF, "Vd,VtVm", MATCH_VFCVTXUFV, MASK_VFCVTXUFV, match_opcode, 0},
 {"th.vec.vfcvt.x.f.v", 0, INSN_CLASS_XTHEADZVEF, "Vd,VtVm", MATCH_VFCVTXFV, MASK_VFCVTXFV, match_opcode, 0},
 {"th.vec.vfcvt.f.xu.v",0, INSN_CLASS_XTHEADZVEF, "Vd,VtVm", MATCH_VFCVTFXUV, MASK_VFCVTFXUV, match_opcode, 0},
-{"th.vec.vfcvt.f.x.v", 0, INSN_CLASS_XTHEADZVEF, "Vd,VtVm", MATCH_VFCVTFXV, MASK_VFCVTFXV, match_opcode, 0},
+{"th.vec.vfcvt.f.x.v", 0, INSN_CLASS_XTHEADZVEF, "Vd,VtVm", MATCH_THVFCVTFXV, MASK_THVFCVTFXV, match_opcode, 0},
 
 {"th.vec.vfwcvt.xu.f.v",0,INSN_CLASS_XTHEADZVEF, "Vd,VtVm", MATCH_VFWCVTXUFV, MASK_VFWCVTXUFV, match_opcode, 0},
 {"th.vec.vfwcvt.x.f.v",0, INSN_CLASS_XTHEADZVEF, "Vd,VtVm", MATCH_VFWCVTXFV, MASK_VFWCVTXFV, match_opcode, 0},
