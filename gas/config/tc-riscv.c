@@ -2542,7 +2542,7 @@ riscv_ip (char *str, struct riscv_cl_insn *ip, expressionS *imm_expr,
 
   insn = (struct riscv_opcode *) str_hash_find (hash, str);
 
-  if(insn->insn_class == INSN_CLASS_XTHEADV)
+  if( insn && (insn->insn_class == INSN_CLASS_XTHEADV))
     vectorversion = VECTOR_VERSION_071;
 
   asargStart = asarg;
