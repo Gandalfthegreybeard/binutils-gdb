@@ -1,0 +1,20 @@
+This version of binutils has been modified to allow simultaneous assembly of both 1.0 and 0.7.1 versions of RVV.
+
+RVV 1.0 is enabled as usual with the 'v' option in the -march option ie. -march=rv64imafdcv
+    This will emit a "v1p0" tag into ".riscv.attributes"
+
+RVV 0.7.1 is enabled by the use of 'xtheadv' option in the -march option ie. -march=rv64imafdc_xtheadv
+    This will emit a "xtheadv0p7" tag intot the ".riscv.attributes" in the a.out
+    0.7.1 code generation is additionally specified by the prefix of "th.vec" ie. "th.vec.vsetvli"
+
+Note that these are non-exclusive, so you can enable assembly of both, ie. -march=rv64imafdcv_xtheadv where appropriate for conditional compilation.
+    This will emit *both* a "v1p0" and a "xtheadv0p7" tag into the ".riscv.attributes" in the a.out
+
+STATUS: This is a Work In Progress, but more than a simple Proof Of Concept
+        It has only been lightly tested by differential comparison of objdumps vs the thead assembler and riscv_collab assembler, on a small set of assembly code.
+        The disassembler has not been changed yet to work with or detect the 0.7.1 variant code, but would presumably use the .riscv.attributes to determine which version is being used.
+        This binutils was based off of version 2_40, so should be compatible with gcc 13? (I've not tried that yet, and don't know how to pass the relevant args through gcc to the assembler.)
+
+
+DISCLAIMER: a) This is not endorsed or supported by T-Head or Xuantie, I merely used the approach used for the other XTHead extensions such as XTheadBa, XTheadMemPair etc. and added the "th.vec" for ease of identification.
+            b) As far as I am aware there is no "official support" for a XTHeadV vector support, and believe the code could be quickly modified to support an alternative to the  "th.vec" prefix I used.
