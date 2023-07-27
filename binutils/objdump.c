@@ -3694,8 +3694,6 @@ disassemble_section (bfd *abfd, asection *section, void *inf)
    next_sym
   } loop_until;
 
-  printf("disassemble_section: \n");
-
   if (only_list == NULL)
     {
       /* Sections that do not contain machine
@@ -5540,8 +5538,6 @@ dump_bfd (bfd *abfd, bool is_mainfile)
 {
   const struct elf_backend_data * bed;
 
-  printf("dump_bfd: \n");
-
   if (bfd_big_endian (abfd))
     byte_get = byte_get_big_endian;
   else if (bfd_little_endian (abfd))
@@ -5609,8 +5605,6 @@ dump_bfd (bfd *abfd, bool is_mainfile)
       || dump_debugging
       || dump_dwarf_section_info)
     {
-      printf("dump_bfd: have stuff to dump\n");
-
       syms = slurp_symtab (abfd);
 
       /* If following links, load any symbol tables from the linked files as well.  */
@@ -5657,16 +5651,12 @@ dump_bfd (bfd *abfd, bool is_mainfile)
 
       if (disassemble)
 	{
-      printf("dump_bfd: bfd_get_synthetic_symtab ()\n");
-
 	  synthcount = bfd_get_synthetic_symtab (abfd, symcount, syms,
 						 dynsymcount, dynsyms,
 						 &synthsyms);
 	  if (synthcount < 0)
 	    synthcount = 0;
 	}
-  printf("dump_bfd: and now the various dumps\n");
-
       if (dump_symtab)
 	dump_symbols (abfd, false);
       if (dump_dynamic_symtab)
@@ -5688,13 +5678,9 @@ dump_bfd (bfd *abfd, bool is_mainfile)
 	dump_dynamic_relocs (abfd);
       if (dump_section_contents)
 	dump_data (abfd);
-    printf("dump_bfd: if disassemble \n");
-
       if (disassemble)
 	disassemble_data (abfd);
     }
-
-    printf("dump_bfd: check dump_debugging\n");
 
   if (dump_debugging)
     {
@@ -5751,8 +5737,6 @@ static void
 display_object_bfd (bfd *abfd)
 {
   char **matching;
-
-  printf("display_object_bfd: \n");
 
   if (bfd_check_format_matches (abfd, bfd_object, &matching))
     {
@@ -5856,8 +5840,6 @@ display_file (char *filename, char *target, bool last_file)
       exit_status = 1;
       return;
     }
-
-  printf("About to open file %s \n", filename);
 
   file = bfd_openr (filename, target);
   if (file == NULL)

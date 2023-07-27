@@ -18064,8 +18064,6 @@ process_attributes (Filedata * filedata,
   unsigned i;
   bool res = true;
 
-  printf("process_attributes: %s %d \n", public_name, proc_type);
-
   /* Find the section header so that we get the size.  */
   for (i = 0, sect = filedata->section_headers;
        i < filedata->file_header.e_shnum;
@@ -22209,8 +22207,6 @@ display_generic_attribute (unsigned char * start,
 static bool
 process_arch_specific (Filedata * filedata)
 {
-	printf("process_arch_specific: \n");
-
   if (! do_arch)
     return true;
 
@@ -22513,8 +22509,6 @@ process_object (Filedata * filedata)
   bool have_separate_files;
   unsigned int i;
   bool res;
-
-  printf("process_object: \n");
 
   if (! get_file_header (filedata))
     {
